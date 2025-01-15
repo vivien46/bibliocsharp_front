@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "postbuild": "node add-preload.js",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
@@ -33,5 +34,8 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.2.2",
     "vite": "^5.2.12"
+  },
+  "resolutions": {
+    "string-width": "^4.2.0"
   }
 }

@@ -1,5 +1,14 @@
+import API_URL from "./apiConfig";
+
 export const usersApi = async () => {
-    const res = await fetch("https://localhost:7153/api/user");
+    const res = await fetch(`${API_URL}/user`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        }
+    });
 
     if (!res.ok) {
         throw new Error("Impossible de charger les données");
@@ -16,20 +25,27 @@ export const usersApi = async () => {
 
         return transformedData;
     } else {
-        throw new Error("Les données transformées ne sont pas un tableau");
+        // throw new Error("Les données transformées ne sont pas un tableau");
+        return data
     }
 
 }
 
 export const getUserById = async (id: number) => {
-    const res = await fetch(`https://localhost:7153/api/user/${id}`);
+    const res = await fetch(`${API_URL}/user/${id}`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        }
+    });
 
     if (!res.ok) {
         throw new Error("Impossible de charger les données");
     }
     const data = await res.json();
 
-    
         const transformedData = {
             id: data.id,
             username: data.username,
@@ -42,12 +58,14 @@ export const getUserById = async (id: number) => {
 }
 
 export const updateUser = async (id: number, updatedUser: any) => {
-    const res = await fetch(`https://localhost:7153/api/user/edit/${id}`, {
+    const res = await fetch(`${API_URL}/user/edit/${id}`, {
         method: 'PUT',
+        credentials: 'include',
         headers: {
-            'Content-Type': 'data/form'
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
         },
-        body: updatedUser
+        body: JSON.stringify(updatedUser)
     });
 
     if (!res.ok) {
@@ -56,7 +74,6 @@ export const updateUser = async (id: number, updatedUser: any) => {
 
     // Attendre que le corps de la réponse soit parsé en JSON
     const user = await res.json();
-    console.log(user); // Afficher le contenu du corps de la réponse
 
     return user;
 }

@@ -1,5 +1,7 @@
+import API_URL from "./apiConfig";
+
 export const empruntsApi = async () => {
-    const res = await fetch("https://localhost:7153/api/emprunt");
+    const res = await fetch(`${API_URL}/emprunt`);
 
     if (!res.ok) {
         throw new Error("Impossible de charger les données");
@@ -9,13 +11,13 @@ export const empruntsApi = async () => {
 }
 
 export const getEmpruntById = async (id: number) => {
-    const res = await fetch(`https://localhost:7153/api/emprunt/${id}`);
+    const res = await fetch(`${API_URL}/emprunt/${id}`);
 
     if (!res.ok) {
         throw new Error("Impossible de charger les données");
     }
     const data = await res.json();
-    console.log('Données brutes reçues de l\'API :', data);
+    console.log('Données brutes reçues de l\'API Emprunt :', data);
 
     const transformedData = {
         id: data.id,
@@ -28,27 +30,28 @@ export const getEmpruntById = async (id: number) => {
     };
 
 export const updateEmprunt = async (id: number, updatedEmprunt: any) => {
-    const res = await fetch(`https://localhost:7153/api/emprunt/edit/${id}`, {
+    const formData = new FormData();
+    formData.append("dateEmprunt", updatedEmprunt.dateEmprunt);
+    formData.append("dateRetour", updatedEmprunt.dateRetour);
+    formData.append("livreId", updatedEmprunt.livreId.toString());
+    formData.append("userId", updatedEmprunt.userId.toString());
+
+    const res = await fetch(`${API_URL}/emprunt/edit/${id}`, {
         method: 'PUT',
-        headers: {
-            'Content-Type': 'data/form'
-        },
-        body: updatedEmprunt
+        body: formData
     });
 
     if (!res.ok) {
         throw new Error("Impossible de mettre à jour l'emprunt");
     }
 
-    // Attendre que le corps de la réponse soit parsé en JSON
-    const emprunt = await res.json();
-    console.log(emprunt); // Afficher le contenu du corps de la réponse
-
-    return emprunt;
-}
+    const data = await res.json();
+    return data;
+};
 
 export const deleteEmprunt = async (id: number) => {
-    const res = await fetch(`https://localhost:7153/api/emprunt/${id}`, {
+    try {
+    const res = await fetch(`${API_URL}/emprunt/${id}`, {
         method: 'DELETE'
     });
 
@@ -56,5 +59,10 @@ export const deleteEmprunt = async (id: number) => {
         throw new Error("Impossible de supprimer l'emprunt");
     }
 
+    alert('Emprunt supprimé avec succès');
     return res;
+    } catch (error) {
+        console.error('Erreur lors de la suppression :', error);
+        alert('Erreur lors de la suppression');
+    }
 };

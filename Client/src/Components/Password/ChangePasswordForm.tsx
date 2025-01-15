@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import API_URL from "../../Api/apiConfig";
 
 const ChangePasswordForm: React.FC = () => {
     const [oldPassword, setOldPassword] = useState("");
@@ -24,7 +25,7 @@ const ChangePasswordForm: React.FC = () => {
         formData.append("newPassword", newPassword);
 
         const response = await fetch(
-            `https://localhost:7153/api/user/change-password/${id}`,
+            `${API_URL}/user/change-password/${id}`,
             {
                 method: "PUT",
                 body: formData,

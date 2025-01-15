@@ -1,5 +1,7 @@
-﻿export const getAllBooks = async () => {
-    const res = await fetch("https://localhost:7153/api/book");
+﻿import API_URL from "./apiConfig";
+
+export const getAllBooks = async () => {
+    const res = await fetch(`${API_URL}/book`);
     if (!res.ok) {
         throw new Error("Impossible de charger les données");
     }
@@ -22,7 +24,7 @@
 }
 
 export const getBookById = async (id: number) => {
-    const res = await fetch(`https://localhost:7153/api/book/${id}`);
+    const res = await fetch(`${API_URL}/book/${id}`);
     if (!res.ok) {
         throw new Error("Impossible de charger les données");
     }
@@ -30,17 +32,3 @@ export const getBookById = async (id: number) => {
     
     return data;
 }
-
-// export const updateBook = async (id: number, formData : FormData) => {
-
-//     const response = await fetch(`https://localhost:7153/api/book/edit/${id}`, {
-//         method: "PUT",
-//         body: formData
-//     });
-
-//     if (!response.ok) {
-//         return;
-//     }
-
-//     return await response.json();
-// };

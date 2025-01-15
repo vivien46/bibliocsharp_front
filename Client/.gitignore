@@ -26,3 +26,4 @@ dist-ssr
 
 # public/assets/Images/Livres/*
 # !public/assets/Images/Livres/.gitkeep
+.env
